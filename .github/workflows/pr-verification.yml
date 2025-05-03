@@ -1,5 +1,6 @@
 name: Pull Request Verification
 run-name: Pull Request Verification
+
 on:
   pull_request:
     types: [opened, synchronize, reopened]
