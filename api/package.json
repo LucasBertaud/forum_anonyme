@@ -8,11 +8,13 @@
   "scripts": {
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+    "lint:check": "eslint \"{src,apps,libs,test}/**/*.ts\"",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
@@ -23,12 +25,14 @@
     "@nestjs/common": "^11.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
+    "class-validator": "^0.14.2",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.1"
   },
   "devDependencies": {
+    "@darraghor/eslint-plugin-nestjs-typed": "^6.4.12",
     "@eslint/eslintrc": "^3.2.0",
-    "@eslint/js": "^9.18.0",
+    "@eslint/js": "^9.26.0",
     "@nestjs/cli": "^11.0.0",
     "@nestjs/schematics": "^11.0.0",
     "@nestjs/testing": "^11.0.1",
@@ -38,7 +42,7 @@
     "@types/jest": "^29.5.14",
     "@types/node": "^22.10.7",
     "@types/supertest": "^6.0.2",
-    "eslint": "^9.18.0",
+    "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-prettier": "^5.2.2",
     "globals": "^15.14.0",
@@ -50,8 +54,8 @@
     "ts-loader": "^9.5.2",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
-    "typescript": "^5.7.3",
-    "typescript-eslint": "^8.20.0"
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.1"
   },
   "jest": {
     "moduleFileExtensions": [

@@ -1,0 +1,54 @@
+name: Manual Release to main
+run-name: Manual release triggered by ${{ github.actor }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      source_branch:
+        description: "Branche source (develop ou bugfixes)"
+        required: true
+        type: choice
+        options:
+          - develop
+          - bugfixes
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    env:
+      INCREMENT_VERSION: ""
+    steps:
+      - name: Check increment version by source branch
+        run: |
+          if [ "${{ github.event.inputs.source_branch }}" == "develop" ]; then
+            echo "INCREMENT_VERSION=minor" >> $GITHUB_ENV
+          elif [ "${{ github.event.inputs.source_branch }}" == "bugfixes" ]; then
+            echo "INCREMENT_VERSION=patch" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: chill-viking/npm-ci@latest
+
+      - name: Configure git user
+        uses: fregante/setup-git-user@v2
+
+      - name: Prepare release branch
+        run: |
+          git fetch origin
+          git checkout main
+          git pull origin main
+          git merge origin/${{ github.event.inputs.source_branch }}
+
+      - name: Increment version
+        if: ${{ env.INCREMENT_VERSION != '' }}
+        run: npm run release:${{ env.INCREMENT_VERSION }}
+
+      - name: Push on main branch
+        run: |
+          git push origin main
