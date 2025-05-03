@@ -1,0 +1,43 @@
+name: Pull Request to main
+run-name: Pull Request to main
+
+on:
+  pull_request:
+    branches:
+      - main
+    types: [closed]
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    env:
+      INCREMENT_VERSION: ""
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment variable conditionally
+        run: |
+          if [ "${{ github.event.pull_request.head.ref }}" == "develop" ]; then
+            echo "INCREMENT_VERSION=minor" >> $GITHUB_ENV
+          elif [ "${{ github.event.pull_request.head.ref }}" == "bugfixes" ]; then
+            echo "INCREMENT_VERSION=patch" >> $GITHUB_ENV
+          fi
+
+      - name: Checkout du code
+        uses: actions/checkout@v4
+
+      - name: Installer les dépendances
+        uses: chill-viking/npm-ci@latest
+
+      - name: Configurer Git
+        uses: fregante/setup-git-user@v2
+
+      - name: Vérifier la branche
+        run: |
+          git fetch origin
+          git switch main
+
+      - name: Versionner le code
+        if: ${{ env.INCREMENT_VERSION != '' }}
+        run: npm run release:$INCREMENT_VERSION

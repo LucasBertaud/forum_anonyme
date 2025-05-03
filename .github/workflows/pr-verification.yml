@@ -1,0 +1,30 @@
+name: Pull Request Verification
+run-name: Pull Request Verification
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  verify-api:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ./api
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: chill-viking/npm-ci@latest
+        with:
+          working_directory: ./api
+
+      - name: Verify formatting
+        run: npm run format:check
+
+      - name: Verify linting
+        run: npm run lint:check
+
+      - name: Execute tests
+        run: npm run test
