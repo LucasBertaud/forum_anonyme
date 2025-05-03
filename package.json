@@ -8,5 +8,13 @@
   },
   "devDependencies": {
     "release-it": "^18.1.2"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "git": {
+      "requireCleanWorkingDir": false
+    }
   }
 }

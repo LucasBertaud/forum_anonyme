@@ -24,20 +24,20 @@ jobs:
             echo "INCREMENT_VERSION=patch" >> $GITHUB_ENV
           fi
 
-      - name: Checkout du code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Installer les dépendances
+      - name: Install dependencies
         uses: chill-viking/npm-ci@latest
 
-      - name: Configurer Git
+      - name: Config Git
         uses: fregante/setup-git-user@v2
 
-      - name: Vérifier la branche
+      - name: Switch to main branch
         run: |
           git fetch origin
           git switch main
 
-      - name: Versionner le code
+      - name: Version bump
         if: ${{ env.INCREMENT_VERSION != '' }}
         run: npm run release:$INCREMENT_VERSION
