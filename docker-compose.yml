@@ -1,0 +1,16 @@
+services:
+  api:
+    build: ./api
+    container_name: api
+    ports:
+      - "3000:3000"
+  thread:
+    build: ./thread
+    container_name: thread
+    ports:
+      - "80:80"
+  sender:
+    build: ./sender
+    container_name: sender
+    ports:
+      - "8080:80"
