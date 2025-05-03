@@ -1,23 +1,20 @@
 {
   "name": "forum_anonyme",
   "version": "1.0.0",
-  "description": "",
-  "homepage": "https://github.com/LucasBertaud/forum_anonyme#readme",
-  "bugs": {
-    "url": "https://github.com/LucasBertaud/forum_anonyme/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/LucasBertaud/forum_anonyme.git"
-  },
-  "license": "ISC",
-  "author": "",
-  "type": "commonjs",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "release:patch": "release-it patch --ci",
+    "release:minor": "release-it minor --ci",
+    "release:major": "release-it major --ci"
   },
-  "dependencies": {
-    "release-it": "^19.0.1"
+  "devDependencies": {
+    "release-it": "^18.1.2"
+  },
+  "release-it": {
+    "npm": {
+      "publish": false
+    },
+    "git": {
+      "requireCleanWorkingDir": false
+    }
   }
 }
