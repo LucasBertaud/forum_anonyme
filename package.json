@@ -1,6 +1,6 @@
 {
   "name": "forum_anonyme",
-  "version": "1.5.0",
+  "version": "0.0.0",
   "scripts": {
     "release:patch": "release-it patch --ci",
     "release:minor": "release-it minor --ci",

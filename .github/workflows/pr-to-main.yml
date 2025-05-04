@@ -1,5 +1,5 @@
-name: Pull Request to main
-run-name: Pull Request to main
+name: Pull Request to Main
+run-name: Pull Request to Main
 
 on:
   pull_request:
