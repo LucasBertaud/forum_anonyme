@@ -84,6 +84,11 @@ jobs:
 
       - name: Config Git
         uses: fregante/setup-git-user@v2
+        
+      - name: Switch to main branch
+        run: |
+          git fetch origin
+          git switch main
 
       - name: Version bump
         if: ${{ env.INCREMENT_VERSION != '' }}
