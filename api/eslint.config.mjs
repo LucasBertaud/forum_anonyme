@@ -32,4 +32,7 @@ export default tseslint.config(
     },
   },
   eslintNestJs.configs.flatRecommended,
+  {
+    ignores: ['**/*.spec.ts', '**/main.ts'],
+  },
 );
