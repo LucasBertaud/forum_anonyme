@@ -1,10 +1,10 @@
 {
   "name": "forum_anonyme",
-  "version": "1.5.0",
+  "version": "0.0.0",
   "scripts": {
-    "release:patch": "release-it patch --ci --changelog",
-    "release:minor": "release-it minor --ci --changelog",
-    "release:major": "release-it major --ci --changelog",
+    "release:patch": "release-it patch --ci",
+    "release:minor": "release-it minor --ci",
+    "release:major": "release-it major --ci",
     "test:e2e": "npx playwright test --config=e2e/playwright.config.ts"
   },
   "devDependencies": {
