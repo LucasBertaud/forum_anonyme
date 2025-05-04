@@ -5,6 +5,7 @@
 >
   <head>
     <meta charset="UTF-8" />
+    <meta http-equiv="refresh" content="300" />
     <title>Envoi d'un message - Forum Anonyme</title>
     <script src="script.js"></script>
     <script
@@ -15,13 +16,14 @@
   </head>
   <body class="p-6">
     <div
-      x-data="{ step: 'pseudo', pseudo: '', message: '', notif: null, notifyShow: false }"
+      x-data="{ step: 'pseudo', pseudo: '', message: '', notif: null }"
       class="w-full max-w-md mx-auto space-y-4"
     >
       <!-- Formulaire de pseudo -->
       <form
         x-show="step === 'pseudo'"
-        @submit.prevent="step = 'message'"
+        x-data="pseudoForm()"
+        @submit.prevent="submit"
         class="bg-white p-6 rounded shadow"
       >
         <h2 class="text-xl font-semibold mb-4">Entrez votre pseudo</h2>

@@ -4,15 +4,30 @@ import { CreateMessageDto } from './dto/create-message.dto';
 import { UpdateMessageDto } from './dto/update-message.dto';
 import { Message } from './entities/message.entity';
 import { Repository } from 'typeorm';
+import { ActivePseudoService } from '../active-pseudo/active-pseudo.service';
 
 @Injectable()
 export class MessageService {
   constructor(
     @InjectRepository(Message)
     private repository: Repository<Message>,
+    private activePseudoService: ActivePseudoService,
   ) {}
 
-  create(createMessageDto: CreateMessageDto) {
+  async create(createMessageDto: CreateMessageDto) {
+    const activePseudo = await this.activePseudoService.findOne(
+      createMessageDto.author,
+    );
+
+    if (!activePseudo) {
+      throw new Error('Pseudo non actif ou inexistant');
+    }
+
+    // Prolonge de 10 minutes l'expiration du pseudo
+    await this.activePseudoService.update(createMessageDto.author, {
+      expiredAt: new Date(Date.now() + 10 * 60 * 1000),
+    });
+
     return this.repository.save(createMessageDto);
   }
 
