@@ -63,24 +63,33 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
       - name: Convert repository name to lowercase
         id: repo_name
         run: echo "REPO_NAME=$(echo '${{ github.repository }}' | tr '[:upper:]' '[:lower:]')" >> $GITHUB_OUTPUT
 
-      - name: Build and tag API image
-        run: docker build -t ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/api:${{ steps.short-sha.outputs.sha }} ./api
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/api:${{ steps.short-sha.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build and tag Sender image
-        run: docker build -t ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/sender:${{ steps.short-sha.outputs.sha }} ./sender
+      - name: Build and push Frontend image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/frontend:${{ steps.short-sha.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Build and tag Thread image
-        run: docker build -t ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/thread:${{ steps.short-sha.outputs.sha }} ./thread
-
-      - name: Push API image
-        run: docker push ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/api:${{ steps.short-sha.outputs.sha }}
-
-      - name: Push Sender image
-        run: docker push ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/sender:${{ steps.short-sha.outputs.sha }}
-
-      - name: Push Thread image
-        run: docker push ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/thread:${{ steps.short-sha.outputs.sha }}
+      - name: Build and push Sender image
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          tags: ghcr.io/${{ steps.repo_name.outputs.REPO_NAME }}/sender:${{ steps.short-sha.outputs.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
