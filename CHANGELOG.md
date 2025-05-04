@@ -1,5 +1,7 @@
 # Changelog
 
+## 1.1.0 (2025-05-04)
+
 ## [1.0.0](https://github.com/LucasBertaud/forum_anonyme/compare/0.0.1...1.0.0) (2025-05-04)
 
 ### Features
