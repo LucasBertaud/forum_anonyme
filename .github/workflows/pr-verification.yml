@@ -26,5 +26,31 @@ jobs:
       - name: Verify linting
         run: npm run lint:check
 
-      - name: Execute tests
+      - name: Execute unit tests
         run: npm run test
+
+  verify-frontend:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        uses: chill-viking/npm-ci@latest
+
+      - name: Build and start services with Docker Compose
+        run: docker compose up -d --build
+
+      - name: Wait for sender (port 8080) and thread (port 80) to be ready
+        run: |
+          npx wait-on http://localhost:8080 http://localhost
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+
+      - name: Stop Docker services
+        run: docker compose down
