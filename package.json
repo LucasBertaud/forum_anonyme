@@ -1,33 +1,51 @@
 {
   "name": "forum_anonyme",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "scripts": {
     "release:patch": "release-it patch --ci",
     "release:minor": "release-it minor --ci",
     "release:major": "release-it major --ci",
-    "test:e2e": "npx playwright test --config=e2e/playwright.config.ts"
+    "test:e2e": "npx playwright test --config=e2e/playwright.config.ts",
+    "release": "release-it"
   },
   "devDependencies": {
+    "@release-it/conventional-changelog": "^10.0.1",
     "playwright": "^1.52.0",
     "release-it": "^18.1.2",
     "wait-on": "^8.0.3"
   },
   "dependencies": {
     "@nestjs/typeorm": "^11.0.0",
-    "conventional-changelog": "^6.0.0",
     "mysql2": "^3.14.1",
     "typeorm": "^0.3.22"
   },
   "release-it": {
+    "git": {
+      "commitMessage": "chore: release ${version}"
+    },
+    "github": {
+      "release": true
+    },
     "npm": {
       "publish": false
     },
-    "git": {
-      "requireCleanWorkingDir": false,
-      "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -s"
-    },
-    "hooks": {
-      "after:bump": "npx conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
+    "plugins": {
+      "@release-it/conventional-changelog": {
+        "infile": "CHANGELOG.md",
+        "preset": {
+          "name": "conventionalcommits",
+          "type": [
+            {
+              "type": "feat",
+              "section": "Features"
+            },
+            {
+              "type": "fix",
+              "section": "Bug Fixes"
+            }
+          ]
+        }
+      }
     }
   }
 }
