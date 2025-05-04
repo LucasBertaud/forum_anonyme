@@ -4,10 +4,13 @@
   "scripts": {
     "release:patch": "release-it patch --ci",
     "release:minor": "release-it minor --ci",
-    "release:major": "release-it major --ci"
+    "release:major": "release-it major --ci",
+    "test:e2e": "npx playwright test --config=e2e/playwright.config.ts"
   },
   "devDependencies": {
-    "release-it": "^18.1.2"
+    "playwright": "^1.52.0",
+    "release-it": "^18.1.2",
+    "wait-on": "^8.0.3"
   },
   "release-it": {
     "npm": {
@@ -16,5 +19,10 @@
     "git": {
       "requireCleanWorkingDir": false
     }
+  },
+  "dependencies": {
+    "@nestjs/typeorm": "^11.0.0",
+    "mysql2": "^3.14.1",
+    "typeorm": "^0.3.22"
   }
 }

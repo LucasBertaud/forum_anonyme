@@ -1,12 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="fr"
+  class="bg-gray-500 min-h-screen flex items-center justify-center"
+>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <title>Messages - Forum Anonyme</title>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
-    <button hx-post="/clicked" hx-swap="outerHTML">Click Me</button>
+  <body class="p-6">
+    <div
+      x-data="{ messages: [] }"
+      x-init="messages = (await (await fetch('http://localhost:3000/message')).json()).reverse()"
+      class="w-full max-w-md mx-auto space-y-4"
+    >
+      <h1 class="text-2xl font-bold text-center text-white mb-6">
+        Messages des utilisateurs
+      </h1>
+
+      <!-- Liste des messages -->
+      <template x-if="messages.length > 0">
+        <div class="space-y-4">
+          <template x-for="(message, index) in messages" :key="index">
+            <div class="bg-white p-4 rounded shadow">
+              <h3 class="font-semibold text-lg" x-text="message.author"></h3>
+              <p
+                class="text-gray-700 mt-2 break-all"
+                x-text="message.content"
+              ></p>
+              <small
+                class="text-gray-500 block mt-2 italic"
+                x-text="date"
+                x-data="{date: new Date(message.date).toLocaleDateString('fr-Fr') + ' ' + new Date(message.date).toLocaleTimeString('fr-Fr')}"
+              ></small>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- Message si aucun message -->
+      <template x-if="messages.length === 0">
+        <p class="text-center text-white">
+          Aucun message pour le moment. Revenez plus tard !
+        </p>
+      </template>
+    </div>
   </body>
 </html>

@@ -1,12 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html
+  lang="fr"
+  class="bg-gray-500 min-h-screen flex items-center justify-center"
+>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <meta http-equiv="refresh" content="300" />
+    <title>Envoi d'un message - Forum Anonyme</title>
+    <script src="script.js"></script>
+    <script
+      defer
+      src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.1/dist/cdn.min.js"
+    ></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
   </head>
-  <body>
-    <button hx-post="/clicked" hx-swap="outerHTML">Click Me</button>
+  <body class="p-6">
+    <div
+      x-data="{ step: 'pseudo', pseudo: '', message: '', notif: null }"
+      class="w-full max-w-md mx-auto space-y-4"
+    >
+      <!-- Formulaire de pseudo -->
+      <form
+        x-show="step === 'pseudo'"
+        x-data="pseudoForm()"
+        @submit.prevent="submit"
+        class="bg-white p-6 rounded shadow"
+      >
+        <h2 class="text-xl font-semibold mb-4">Entrez votre pseudo</h2>
+        <input
+          type="text"
+          x-model="pseudo"
+          required
+          placeholder="Votre pseudo"
+          class="w-full border border-gray-300 p-2 rounded mb-4"
+        />
+        <button
+          type="submit"
+          class="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Continuer
+        </button>
+      </form>
+
+      <!-- Formulaire de message -->
+      <form
+        x-show="step === 'message'"
+        x-data="messageForm()"
+        @submit.prevent="submit"
+        method="POST"
+        action="http://localhost:3000/message"
+        class="bg-white p-6 rounded shadow"
+      >
+        <h2 class="text-xl font-semibold mb-4">
+          Bonjour <span x-text="pseudo"></span>
+        </h2>
+        <textarea
+          x-model="message"
+          placeholder="Votre message"
+          class="w-full border border-gray-300 p-2 rounded mb-4"
+          required
+        ></textarea>
+        <button
+          type="submit"
+          class="w-full bg-green-600 text-white py-2 px-4 rounded hover:bg-green-700"
+        >
+          Envoyer
+        </button>
+      </form>
+
+      <!-- Notification -->
+      <template x-if="notif">
+        <div
+          x-text="notif.text"
+          :class="notif.type === 'success' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'"
+          class="fixed top-4 left-4 p-4 rounded shadow z-50"
+          x-transition
+        ></div>
+      </template>
+    </div>
   </body>
 </html>

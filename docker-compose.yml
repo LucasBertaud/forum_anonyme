@@ -4,13 +4,38 @@ services:
     container_name: api
     ports:
       - "3000:3000"
+    depends_on:
+      - mysql
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: forum_anonyme
+
   thread:
     build: ./thread
     container_name: thread
     ports:
       - "80:80"
+
   sender:
     build: ./sender
     container_name: sender
     ports:
       - "8080:80"
+
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: forum_anonyme
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+volumes:
+  mysql_data:
