@@ -12,17 +12,22 @@
     "release-it": "^18.1.2",
     "wait-on": "^8.0.3"
   },
+  "dependencies": {
+    "@nestjs/typeorm": "^11.0.0",
+    "conventional-changelog": "^6.0.0",
+    "mysql2": "^3.14.1",
+    "typeorm": "^0.3.22"
+  },
   "release-it": {
     "npm": {
       "publish": false
     },
     "git": {
-      "requireCleanWorkingDir": false
+      "requireCleanWorkingDir": false,
+      "changelog": "npx conventional-changelog -p angular -i CHANGELOG.md -s"
+    },
+    "hooks": {
+      "after:bump": "npx conventional-changelog -p angular -i CHANGELOG.md -s && git add CHANGELOG.md"
     }
-  },
-  "dependencies": {
-    "@nestjs/typeorm": "^11.0.0",
-    "mysql2": "^3.14.1",
-    "typeorm": "^0.3.22"
   }
 }
