@@ -16,9 +16,6 @@ jobs:
       TF_VERSION: 1.9.5
       TF_CLOUD_ORG: forum-anonyme
       TF_CLOUD_WORKSPACE: aws-infra
-      AWS_REGION: eu-central-1
-      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
     defaults:
       run:
