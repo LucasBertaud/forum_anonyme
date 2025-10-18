@@ -16,6 +16,7 @@ jobs:
       TF_VERSION: 1.9.5
       TF_CLOUD_ORG: forum-anonyme
       TF_CLOUD_WORKSPACE: aws-infra
+      AWS_REGION: eu-central-1
 
     defaults:
       run:
