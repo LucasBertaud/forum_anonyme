@@ -9,7 +9,34 @@ on:
       - main
 
 jobs:
+  secret_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install gitleaks
+        run: |
+          curl -sSL https://github.com/zricethezav/gitleaks/releases/download/v9.0.1/gitleaks_9.0.1_linux_x64.tar.gz | tar -xz
+          sudo mv gitleaks /usr/local/bin/
+
+      - name: Run gitleaks scan
+        run: gitleaks detect -v --no-git
+
+  sast_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep scan
+        run: semgrep --config=p/ci
+
   terraform:
+    needs: [secret_scan, sast_scan]
     runs-on: ubuntu-latest
 
     env:
